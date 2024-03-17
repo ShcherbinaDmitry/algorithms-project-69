@@ -1,8 +1,8 @@
-const search = (items, subString) => {
-  const str = subString.toLowerCase();
+const search = (items, token) => {
+  const term = token.match(/\w+/g)[0];
 
   return items
-    .filter(({ text }) => text.toLowerCase().includes(str))
+    .filter(({ text }) => text.toLowerCase().includes(term))
     .map(({ id }) => id);
 };
 

@@ -10,4 +10,5 @@ test('search', () => {
   expect(search([{ id: 1, text: 'a' }, { id: 2, text: 'b' }], 'b')).toEqual([2]);
   expect(search([{ id: 1, text: 'a' }, { id: 2, text: 'b' }], 'c')).toEqual([]);
   expect(search([{ id: 1, text: 'a' }, { id: 2, text: 'ab' }], 'a')).toEqual([1, 2]);
+  expect(search([{ id: 1, text: 'test' }, { id: 2, text: 'foo' }], 'test!')).toEqual([1]);
 });
