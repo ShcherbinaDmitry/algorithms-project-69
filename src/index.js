@@ -1,16 +1,31 @@
-const search = (items, token) => {
-  const term = token.match(/\w+/g)[0];
-  const regex = new RegExp(`\\b${term}\\b`, 'gmi');
+const getSearchWords = (token) => token.match(/\w+/g);
 
-  return items
+const countRelevance = (text, words) => {
+  const relevance = words.reduce((acc, term) => {
+    const regex = new RegExp(`\\b${term}\\b`, 'gmi');
+    return acc + (text.match(regex) || []).length;
+  }, 0);
+
+  return relevance;
+};
+
+const search = (items, token) => {
+  const terms = getSearchWords(token);
+
+  const res = items
     .map((item) => {
       const { id, text } = item;
-      const relevance = (text.match(regex) || []).length;
-      return { id, text, relevance };
+      return {
+        id,
+        text,
+        relevance: countRelevance(text, terms),
+      };
     })
     .filter(({ relevance }) => relevance)
     .sort((a, b) => b.relevance - a.relevance)
     .map(({ id }) => id);
+
+  return res;
 };
 
 export default search;
